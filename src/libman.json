@@ -11,8 +11,8 @@
       ]
     },
     {
-      "library": "open-iconic@1.1.1",
-      "destination": "wwwroot/lib/open-iconic/"
+      "library": "font-awesome@6.2.1",
+      "destination": "wwwroot/lib/font-awesome/"
     }
   ]
 }
