@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NiceDice", "src\NiceDice.csproj", "{FDE7F342-6376-413A-AD5E-7A6111280152}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{49895389-01BC-4FE1-A0E6-7DB16656D64E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDE7F342-6376-413A-AD5E-7A6111280152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE7F342-6376-413A-AD5E-7A6111280152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE7F342-6376-413A-AD5E-7A6111280152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE7F342-6376-413A-AD5E-7A6111280152}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57885CE9-EB16-47F5-A1FC-50B708C9D881}
+	EndGlobalSection
+EndGlobal
