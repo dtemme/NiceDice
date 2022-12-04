@@ -1,0 +1,35 @@
+﻿@page "/"
+@page "/{Context}"
+
+<PageTitle>Nice Dice</PageTitle>
+
+<div class="d-flex flex-nowrap">
+    <button class="btn btn-primary mx-1" @onclick="ToggleDarkMode">
+        <span class="oi @(DarkMode ? "oi-sun" : "oi-moon")"></span>
+    </button>
+    <a class="btn btn-primary mx-1" href="/">Zahlen</a>
+    <a class="btn btn-primary mx-1" href="/letters">Buchstaben</a>
+</div>
+
+<hr />
+
+<Condition Evaluation="@(Context == "letters")">
+    <Match>
+        <Iterations Items="LetterDices">
+            <Dice DiceInfo="context" OnSaveState="SaveStateAsync" OnRemoveCounter="RemoveLetterDiceAsync" DarkMode="DarkMode" />
+        </Iterations>
+
+        <button class="btn btn-primary btn-lg addDiceButton" @onclick="AddLetterDiceAsync">
+            <span class="oi oi-plus"></span> abc
+        </button>
+    </Match>
+    <NotMatch>
+        <Iterations Items="NumericDices">
+            <Dice DiceInfo="context" OnSaveState="SaveStateAsync" OnRemoveCounter="RemoveNumericDiceAsync" DarkMode="DarkMode" />
+        </Iterations>
+
+        <button class="btn btn-primary btn-lg addDiceButton" @onclick="AddNumericDiceAsync">
+            <span class="oi oi-plus"></span> 123
+        </button>
+    </NotMatch>
+</Condition>
