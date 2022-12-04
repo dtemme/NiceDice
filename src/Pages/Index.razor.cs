@@ -10,7 +10,6 @@ namespace NiceDice.Pages;
 
 public partial class Index
 {
-    private const string LetterRepositoryStorageKey = "LetterRepository";
     private const string LetterDiceStatesStorageKey = "LetterDiceStates";
     private const string NumericDiceStatesStorageKey = "NumericDiceStates";
     private const string DarkModeStorageKey = "DarkMode";
@@ -19,13 +18,17 @@ public partial class Index
     public ILocalStorageService LocalStorage { get; set; }
     [Inject]
     public IJSRuntime JsRuntime { get; set; }
+    [Inject]
+    public LetterRepository LetterRepository { get; set; }
 
     [Parameter]
     public string Context { get; set; }
 
     public IList<LetterDice> LetterDices { get; set; } = new List<LetterDice>();
     public IList<NumericDice> NumericDices { get; set; } = new List<NumericDice>();
-    public LetterRepository LetterRepository { get; set; } = new LetterRepository();
+
+    private IEnumerable<BaseDice> activeDices => Context != "letters" ? NumericDices : LetterDices;
+
     public bool DarkMode { get; private set; } = true;
 
     protected override async Task OnInitializedAsync()
@@ -34,21 +37,36 @@ public partial class Index
         await LoadStateAsync().ConfigureAwait(false);
     }
 
+    public async Task RollDicesAsync()
+    {
+        foreach (var dice in activeDices)
+            dice.IsRolling = true;
+        for (var i = 0; i < 7; i++)
+        {
+            foreach (var dice in activeDices)
+                dice.SetRandomValue();
+            StateHasChanged();
+            await Task.Delay(100).ConfigureAwait(false);
+        }
+        foreach (var dice in activeDices)
+            dice.SetRandomValue();
+        foreach (var dice in activeDices)
+            dice.IsRolling = false;
+    }
+
     private async Task SaveStateAsync()
     {
         await LocalStorage.SetItemAsync(NumericDiceStatesStorageKey, NumericDices).ConfigureAwait(false);
         await LocalStorage.SetItemAsync(LetterDiceStatesStorageKey, LetterDices).ConfigureAwait(false);
-        await LocalStorage.SetItemAsync(LetterRepositoryStorageKey, LetterRepository).ConfigureAwait(false);
+        await LetterRepository.SaveStateAsync(LocalStorage).ConfigureAwait(false);
     }
 
     private async Task LoadStateAsync()
     {
-        DarkMode = await LocalStorage.GetItemAsync<bool?>(DarkModeStorageKey).ConfigureAwait(false) ?? false;
+        DarkMode = await LocalStorage.GetItemAsync<bool?>(DarkModeStorageKey).ConfigureAwait(false) ?? true;
         await SetDarkModeAsync(DarkMode).ConfigureAwait(false);
 
-        var letterRepository = await LocalStorage.GetItemAsync<LetterRepository>(LetterRepositoryStorageKey).ConfigureAwait(false);
-        if (letterRepository != null)
-            LetterRepository = letterRepository;
+        await LetterRepository.LoadStateAsync(LocalStorage).ConfigureAwait(false);
 
         var letterDices = await LocalStorage.GetItemAsync<IList<LetterDice>>(LetterDiceStatesStorageKey).ConfigureAwait(false);
         if (letterDices != null)

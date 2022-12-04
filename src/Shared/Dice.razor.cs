@@ -22,20 +22,6 @@ public partial class Dice
     [Parameter]
     public EventCallback<BaseDice> OnRemoveCounter { get; set; }
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        DiceInfo.AfterValueChanged = StateHasChanged;
-    }
-
-    private async Task RollAsync()
-    {
-        if (DiceInfo.IsRolling)
-            return;
-        await DiceInfo.RollAsync().ConfigureAwait(false);
-        await OnSaveState.InvokeAsync().ConfigureAwait(false);
-    }
-
     private async Task RemoveCounterAsync()
     {
         if (await JSRuntime.InvokeAsync<bool>("confirm", "Wirklich löschen?").ConfigureAwait(false))
