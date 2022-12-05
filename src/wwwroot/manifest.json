@@ -12,5 +12,21 @@
       "type": "image/png",
       "sizes": "512x512"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Zahlen",
+      "url": "/",
+      "description": "Zahlenwürfel"
+    },
+    {
+      "name": "Wörter",
+      "url": "/words",
+      "description": "Wörterwürfel"
+    },
+    {
+      "name": "Einstellungen",
+      "url": "/settings"
+    }
   ]
 }

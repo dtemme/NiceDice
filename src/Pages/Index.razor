@@ -4,34 +4,36 @@
 <PageTitle>Nice Dice</PageTitle>
 
 <div class="d-flex flex-nowrap">
-    <button class="btn btn-primary mx-1" @onclick="ToggleDarkMode">
-        <span class="fa @(DarkMode ? "fa-sun" : "fa-moon")"></span>
-    </button>
-    <a class="btn btn-primary mx-1" href="/">Zahlen</a>
-    <a class="btn btn-primary mx-1" href="/letters">Buchstaben</a>
+    <a class="btn btn-primary mx-1 @(string.IsNullOrWhiteSpace(Context) ? "text-decoration-underline" : "")" href="/">Zahlen</a>
+    <a class="btn btn-primary mx-1 @(Context == "words" ? "text-decoration-underline" : "")" href="/words">Wörter</a>
+    <a class="btn btn-primary mx-1 @(Context == "settings" ? "text-decoration-underline" : "")" href="/settings">Einstellungen</a>
 </div>
 
 <hr />
 
-<div @onclick="RollDicesAsync">
-    <Condition Evaluation="@(Context == "letters")">
-        <Match>
-            <Iterations Items="LetterDices">
-                <Dice DiceInfo="context" OnSaveState="SaveStateAsync" OnRemoveCounter="RemoveLetterDiceAsync" DarkMode="DarkMode" />
+<Condition Evaluation="@(Context == "settings")">
+    <Match>
+        <button class="btn btn-primary mx-1" @onclick="ToggleDarkMode">
+            <span>@(DarkMode ? "Helles Design" : "Dukles Design")</span>
+        </button>
+        <br />
+        <br />
+        <Settings OnSaveChanges="SaveStateAsync" />
+    </Match>
+    <NotMatch>
+        <div class="row" style="height: calc(100% - 140px)" @onclick="RollDicesAsync">
+            <Iterations Items="ActiveDices">
+                <div class="col mx-auto px-5 py-3">
+                    <Dice DiceInfo="context" DarkMode="DarkMode" />
+                </div>
             </Iterations>
+        </div>
 
-            <button class="btn btn-primary btn-lg addDiceButton" @onclick="AddLetterDiceAsync">
-                <span class="fa fa-plus"></span>
-            </button>
-        </Match>
-        <NotMatch>
-            <Iterations Items="NumericDices">
-                <Dice DiceInfo="context" OnSaveState="SaveStateAsync" OnRemoveCounter="RemoveNumericDiceAsync" DarkMode="DarkMode" />
-            </Iterations>
-
-            <button class="btn btn-primary btn-lg addDiceButton" @onclick="AddNumericDiceAsync">
-                <span class="fa fa-plus"></span>
-            </button>
-        </NotMatch>
-    </Condition>
-</div>
+        <button class="btn btn-primary btn-lg removeDiceButton" @onclick="RemoveDiceAsync" disabled="@(ActiveDices.Count() <= 1)">
+            <span class="fa fa-minus"></span>
+        </button>
+        <button class="btn btn-primary btn-lg addDiceButton" @onclick="AddDiceAsync">
+            <span class="fa fa-plus"></span>
+        </button>
+    </NotMatch>
+</Condition>

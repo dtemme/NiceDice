@@ -1,12 +1,9 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace NiceDice.Model;
 
 public abstract class BaseDice
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
-
     [JsonIgnore]
     public bool IsRolling { get; set; }
 

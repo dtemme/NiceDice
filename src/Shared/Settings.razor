@@ -1,0 +1,18 @@
+﻿<h1>Mögliche Wörter</h1>
+
+<Condition Evaluation="WordsRepository!=null">
+    <Match>
+        <Iterations Items="WordsRepository.AvailableWords">
+            <div class="m-2">
+                <button class="btn btn-primary btn-lg" @onclick="() => RemoveWordAsync(context)">
+                    <span class="fa fa-trash fa-sm"></span>
+                </button>
+                <div class="btn btn-primary btn-lg" style="min-width: 100px; " @onclick="() => EditWordAsync(context)">@context.Value</div>
+            </div>
+        </Iterations>
+
+        <button class="btn btn-primary btn-lg addWordButton" @onclick="AddWordAsync">
+            <span class="fa fa-plus"></span>
+        </button>
+    </Match>
+</Condition>
