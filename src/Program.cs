@@ -14,6 +14,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddBlazoredLocalStorage();
 
-builder.Services.AddSingleton<LetterRepository>();
+builder.Services.AddSingleton<WordsRepository>();
 
 await builder.Build().RunAsync().ConfigureAwait(false);
